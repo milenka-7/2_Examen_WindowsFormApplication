@@ -1,0 +1,23 @@
+create table tbl_users
+(
+username character varying (150) not null primary key,
+	password  character varying (150)
+)
+select *from tbl_users
+insert into tbl_users values('admin','admin');
+insert into tbl_users values('user','123');
+--------------------------------------------------
+create function u_login(_username character varying, _password character varying)
+returns int as
+$$
+begin
+if (select count(*) from tbl_users where username= _username and password = _password) > 0 then
+   return 1;
+else
+   return 0;
+end if;
+end
+$$
+language plpgsql
+--------------------------------------------
+select * from u_login('admin','admin')
